@@ -11,13 +11,13 @@ RUN apt-get install -y google-cloud-sdk
 RUN pip install apache-airflow==1.10.12 --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-1.10.12/constraints-3.7.txt"
 RUN airflow initdb
 
+COPY requirements.txt /root/requirements.txt
+RUN pip install -r /root/requirements.txt
+
 RUN mkdir -p /root/airflow/dags
 
 COPY launch.sh /root/launch.sh
 RUN chmod +x /root/launch.sh
-
-COPY requirements.txt /root/requirements.txt
-RUN pip install -r /root/requirements.txt
 
 EXPOSE 8080
 CMD ["bash", "/root/launch.sh"]
